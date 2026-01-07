@@ -225,13 +225,12 @@ main {
 
 .summary {
   font-size: 15px;
-  color: var(--text-muted);
+  color: var(--text);
   line-height: 1.6;
 }
 
-/* Bionic bold styling */
+/* Bionic bold styling - weight only, no color change */
 .summary b {
-  color: var(--text);
   font-weight: 600;
 }
 
