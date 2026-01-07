@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Reader</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Reader</h1>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="unread">Unread</button>
+        <button class="filter-btn" data-filter="starred">Starred</button>
+      </div>
+    </header>
+
+    <nav class="categories">
+      <button class="cat-btn active" data-category="all">All</button>
+      <!-- Categories populated by JS -->
+    </nav>
+
+    <main id="items">
+      <div class="pull-indicator">Pull to refresh</div>
+      <div class="loading">Loading...</div>
+    </main>
+  </div>
+
+  <script src="bionic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+// Bionic Reader PWA - Main App
+
+const DATA_URLS = {
+  rss: 'data/rss.json',
+  twitter: 'data/twitter.json'
+};
+
+// State
+let items = [];
+let state = { read: [], starred: [] };
+let currentFilter = 'all';
+let currentCategory = 'all';
+
+// DOM elements
+const itemsContainer = document.getElementById('items');
+const categoriesNav = document.querySelector('.categories');
+const filterBtns = document.querySelectorAll('.filter-btn');
+
+// Initialize
+document.addEventListener('DOMContentLoaded', init);
+
+async function init() {
+  loadState();
+  setupPullToRefresh();
+  setupEventListeners();
+  await loadData();
+  render();
+}
+
+// Load read/starred state from localStorage
+function loadState() {
+  const saved = localStorage.getItem('reader-state');
+  if (saved) {
+    state = JSON.parse(saved);
+  }
+}
+
+function saveState() {
+  localStorage.setItem('reader-state', JSON.stringify(state));
+}
+
+// Pull to refresh
+function setupPullToRefresh() {
+  let startY = 0;
+  let pulling = false;
+  const pullIndicator = document.querySelector('.pull-indicator');
+
+  itemsContainer.addEventListener('touchstart', (e) => {
+    if (itemsContainer.scrollTop === 0) {
+      startY = e.touches[0].clientY;
+      pulling = true;
+    }
+  });
+
+  itemsContainer.addEventListener('touchmove', (e) => {
+    if (!pulling) return;
+    const diff = e.touches[0].clientY - startY;
+    if (diff > 50) {
+      pullIndicator.classList.add('visible');
+    }
+  });
+
+  itemsContainer.addEventListener('touchend', async (e) => {
+    if (pullIndicator.classList.contains('visible')) {
+      pullIndicator.textContent = 'Refreshing...';
+      await loadData();
+      render();
+      pullIndicator.textContent = 'Pull to refresh';
+    }
+    pullIndicator.classList.remove('visible');
+    pulling = false;
+  });
+}
+
+function setupEventListeners() {
+  // Filter buttons
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  // Category buttons (delegated)
+  categoriesNav.addEventListener('click', (e) => {
+    if (e.target.classList.contains('cat-btn')) {
+      categoriesNav.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      currentCategory = e.target.dataset.category;
+      render();
+    }
+  });
+
+  // Item actions (delegated)
+  itemsContainer.addEventListener('click', (e) => {
+    const item = e.target.closest('.item');
+    if (!item) return;
+
+    const id = item.dataset.id;
+
+    if (e.target.classList.contains('star-btn')) {
+      toggleStarred(id);
+      e.target.classList.toggle('starred');
+    } else if (e.target.tagName !== 'A') {
+      // Mark as read on tap (unless clicking link or star)
+      markRead(id);
+      item.classList.add('read');
+    }
+  });
+}
+
+async function loadData() {
+  const loading = document.querySelector('.loading');
+  loading.style.display = 'block';
+
+  try {
+    const [rssRes, twitterRes] = await Promise.all([
+      fetch(DATA_URLS.rss + '?t=' + Date.now()).catch(() => null),
+      fetch(DATA_URLS.twitter + '?t=' + Date.now()).catch(() => null)
+    ]);
+
+    items = [];
+
+    if (rssRes?.ok) {
+      const rssData = await rssRes.json();
+      items.push(...rssData.items.map(item => ({
+        ...item,
+        type: 'rss'
+      })));
+    }
+
+    if (twitterRes?.ok) {
+      const twitterData = await twitterRes.json();
+      items.push(...twitterData.items.map(item => ({
+        ...item,
+        type: 'twitter',
+        category: item.category || 'Twitter'
+      })));
+    }
+
+    // Sort by date, newest first
+    items.sort((a, b) => new Date(b.published) - new Date(a.published));
+
+    // Build category list
+    const categories = [...new Set(items.map(i => i.category))].sort();
+    renderCategories(categories);
+
+  } catch (err) {
+    console.error('Failed to load data:', err);
+  }
+
+  loading.style.display = 'none';
+}
+
+function renderCategories(categories) {
+  const existing = categoriesNav.querySelector('.cat-btn[data-category="all"]');
+  categoriesNav.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cat-btn' + (currentCategory === 'all' ? ' active' : '');
+  allBtn.dataset.category = 'all';
+  allBtn.textContent = 'All';
+  categoriesNav.appendChild(allBtn);
+
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (currentCategory === cat ? ' active' : '');
+    btn.dataset.category = cat;
+    btn.textContent = cat;
+    categoriesNav.appendChild(btn);
+  });
+}
+
+function render() {
+  const filtered = items.filter(item => {
+    // Filter by read/starred
+    if (currentFilter === 'unread' && state.read.includes(item.id)) return false;
+    if (currentFilter === 'starred' && !state.starred.includes(item.id)) return false;
+
+    // Filter by category
+    if (currentCategory !== 'all' && item.category !== currentCategory) return false;
+
+    return true;
+  });
+
+  const pullIndicator = document.querySelector('.pull-indicator');
+  const loading = document.querySelector('.loading');
+
+  itemsContainer.innerHTML = '';
+  itemsContainer.appendChild(pullIndicator);
+  itemsContainer.appendChild(loading);
+
+  if (filtered.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = currentFilter === 'starred' ? 'No starred items' :
+                        currentFilter === 'unread' ? 'All caught up!' : 'No items';
+    itemsContainer.appendChild(empty);
+    return;
+  }
+
+  filtered.forEach(item => {
+    const el = document.createElement('article');
+    el.className = 'item' + (state.read.includes(item.id) ? ' read' : '');
+    el.dataset.id = item.id;
+
+    const isStarred = state.starred.includes(item.id);
+    const date = formatDate(item.published);
+    const source = item.type === 'twitter' ? `@${item.user}` : item.source;
+
+    el.innerHTML = `
+      <div class="item-header">
+        <span class="source">${source}</span>
+        <span class="date">${date}</span>
+        <button class="star-btn${isStarred ? ' starred' : ''}" aria-label="Star">
+          ${isStarred ? '★' : '☆'}
+        </button>
+      </div>
+      <h3 class="title">${item.type === 'twitter' ? '' : `<a href="${item.link}" target="_blank">${escapeHtml(item.title)}</a>`}</h3>
+      <p class="summary">${bionify(escapeHtml(item.summary || item.text || ''))}</p>
+      ${item.type === 'twitter' ? `<a href="${item.link}" target="_blank" class="tweet-link">View tweet</a>` : ''}
+    `;
+
+    itemsContainer.appendChild(el);
+  });
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now - date;
+  const diffHours = diffMs / (1000 * 60 * 60);
+
+  if (diffHours < 1) return 'Just now';
+  if (diffHours < 24) return `${Math.floor(diffHours)}h ago`;
+  if (diffHours < 48) return 'Yesterday';
+
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function markRead(id) {
+  if (!state.read.includes(id)) {
+    state.read.push(id);
+    saveState();
+  }
+}
+
+function toggleStarred(id) {
+  const idx = state.starred.indexOf(id);
+  if (idx >= 0) {
+    state.starred.splice(idx, 1);
+  } else {
+    state.starred.push(id);
+  }
+  saveState();
+}
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
