@@ -104,9 +104,9 @@ function setupEventListeners() {
       toggleStarred(id);
       e.target.classList.toggle('starred');
     } else if (e.target.tagName !== 'A') {
-      // Mark as read on tap (unless clicking link or star)
-      markRead(id);
-      item.classList.add('read');
+      // Toggle read on tap (unless clicking link or star)
+      toggleRead(id);
+      item.classList.toggle('read');
     }
   });
 }
@@ -219,7 +219,7 @@ function render() {
         </button>
       </div>
       <h3 class="title">${item.type === 'twitter' ? '' : `<a href="${item.link}" target="_blank">${escapeHtml(item.title)}</a>`}</h3>
-      <p class="summary">${bionify(escapeHtml(item.summary || item.text || ''))}</p>
+      <p class="summary">${formatNumberedLists(bionify(escapeHtml(item.summary || item.text || '')))}</p>
       ${item.type === 'twitter' ? `<a href="${item.link}" target="_blank" class="tweet-link">View tweet</a>` : ''}
     `;
 
@@ -246,11 +246,20 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-function markRead(id) {
-  if (!state.read.includes(id)) {
+function formatNumberedLists(text) {
+  // Detect "1. item 2. item 3. item" patterns and add line breaks
+  // Match number followed by period and space, but not at start
+  return text.replace(/(\S)\s+(\d+)\.\s/g, '$1<br>$2. ');
+}
+
+function toggleRead(id) {
+  const idx = state.read.indexOf(id);
+  if (idx >= 0) {
+    state.read.splice(idx, 1);
+  } else {
     state.read.push(id);
-    saveState();
   }
+  saveState();
 }
 
 function toggleStarred(id) {
