@@ -8,7 +8,7 @@ const DATA_URLS = {
 // State
 let items = [];
 let state = { read: [], starred: [] };
-let currentFilter = 'all';
+let currentFilter = 'recommended';  // Default to "For You"
 let currentCategory = 'all';
 
 // DOM elements
@@ -143,9 +143,13 @@ async function loadData() {
     // Sort by date, newest first
     items.sort((a, b) => new Date(b.published) - new Date(a.published));
 
-    // Build category list
-    const categories = [...new Set(items.map(i => i.category))].sort();
-    renderCategories(categories);
+    // Build tag list from all items' tags arrays
+    const allTags = new Set();
+    items.forEach(item => {
+      const tags = item.tags || [item.category];
+      tags.forEach(tag => allTags.add(tag));
+    });
+    renderCategories([...allTags].sort());
 
   } catch (err) {
     console.error('Failed to load data:', err);
@@ -175,12 +179,16 @@ function renderCategories(categories) {
 
 function render() {
   const filtered = items.filter(item => {
-    // Filter by read/starred
+    // Filter by read/starred/recommended
     if (currentFilter === 'unread' && state.read.includes(item.id)) return false;
     if (currentFilter === 'starred' && !state.starred.includes(item.id)) return false;
+    if (currentFilter === 'recommended' && !item.recommended) return false;
 
-    // Filter by category
-    if (currentCategory !== 'all' && item.category !== currentCategory) return false;
+    // Filter by tag (items can have multiple tags)
+    if (currentCategory !== 'all') {
+      const itemTags = item.tags || [item.category];
+      if (!itemTags.includes(currentCategory)) return false;
+    }
 
     return true;
   });
@@ -196,7 +204,8 @@ function render() {
     const empty = document.createElement('div');
     empty.className = 'empty';
     empty.textContent = currentFilter === 'starred' ? 'No starred items' :
-                        currentFilter === 'unread' ? 'All caught up!' : 'No items';
+                        currentFilter === 'unread' ? 'All caught up!' :
+                        currentFilter === 'recommended' ? 'No recommendations yet' : 'No items';
     itemsContainer.appendChild(empty);
     return;
   }
