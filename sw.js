@@ -1,5 +1,8 @@
 // Service Worker for Bionic Reader
-const CACHE_NAME = 'bionic-reader-v1';
+// Version updated on deploy - triggers cache refresh
+const CACHE_VERSION = 2;
+const CACHE_NAME = 'bionic-reader-v' + CACHE_VERSION;
+
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -31,31 +34,47 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch - network first for data, cache first for assets
+// Fetch handler
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Data files - always try network first, fall back to cache
+  // Data files - network first, cache fallback (for offline)
   if (url.pathname.includes('/data/')) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          // Cache the fresh data
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, clone);
           });
           return response;
         })
-        .catch(() => {
-          // Offline - return cached data
-          return caches.match(event.request);
-        })
+        .catch(() => caches.match(event.request))
     );
     return;
   }
 
-  // Static assets - cache first, network fallback
+  // App shell (HTML, JS, CSS) - network first, cache fallback
+  // This ensures new deploys are picked up immediately
+  if (url.pathname === '/' ||
+      url.pathname.endsWith('.html') ||
+      url.pathname.endsWith('.js') ||
+      url.pathname.endsWith('.css')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, clone);
+          });
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Other assets (icons, manifest) - cache first for speed
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return cached || fetch(event.request);

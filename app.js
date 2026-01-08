@@ -116,9 +116,11 @@ async function loadData() {
   loading.style.display = 'block';
 
   try {
+    // Network-first handled by SW; no-store ensures we bypass browser cache
+    const fetchOpts = { cache: 'no-store' };
     const [rssRes, twitterRes] = await Promise.all([
-      fetch(DATA_URLS.rss + '?t=' + Date.now()).catch(() => null),
-      fetch(DATA_URLS.twitter + '?t=' + Date.now()).catch(() => null)
+      fetch(DATA_URLS.rss, fetchOpts).catch(() => null),
+      fetch(DATA_URLS.twitter, fetchOpts).catch(() => null)
     ]);
 
     items = [];
@@ -281,7 +283,21 @@ function toggleStarred(id) {
   saveState();
 }
 
-// Register service worker
+// Register service worker with update detection
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+  navigator.serviceWorker.register('sw.js').then((reg) => {
+    // Check for updates periodically (every 30 min)
+    setInterval(() => reg.update(), 30 * 60 * 1000);
+
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      newWorker.addEventListener('statechange', () => {
+        // New SW activated - reload to get fresh code
+        if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
+          console.log('New version available, reloading...');
+          window.location.reload();
+        }
+      });
+    });
+  });
 }
