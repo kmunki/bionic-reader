@@ -1,6 +1,6 @@
 // Service Worker for Bionic Reader
 // Version updated on deploy - triggers cache refresh
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const CACHE_NAME = 'bionic-reader-v' + CACHE_VERSION;
 
 const STATIC_ASSETS = [
