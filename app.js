@@ -1,8 +1,8 @@
 // Bionic Reader PWA - Main App
 
 const DATA_URLS = {
-  rss: 'data/rss.json',
-  twitter: 'data/twitter.json'
+  rss: 'https://rss-worker.kmunkitt.workers.dev/data/rss.json',
+  twitter: 'data/twitter.json'  // Twitter stays local (needs Mac for auth)
 };
 
 // State
