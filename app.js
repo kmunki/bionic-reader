@@ -8,7 +8,7 @@ const DATA_URLS = {
 // State
 let items = [];
 let state = { read: [], starred: [] };
-let currentFilter = 'recommended';  // Default to "For You"
+let currentFilter = 'all';  // Default to All (For You requires recommendation logic)
 let currentCategory = 'all';
 
 // DOM elements

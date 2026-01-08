@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-07T10:15:29.192616",
+  "generated": "2026-01-07T16:10:03.081376",
   "items": [
     {
       "id": "14bc9a45d5f5",
@@ -9,7 +9,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "\u201cWow, this is quite a situation\u201d\n\nI see why people find claude so endearing lmao",
-      "published": "2026-01-06T02:42:01+00:00"
+      "published": "2026-01-06T02:42:01+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "f520658ad578",
@@ -19,7 +24,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "Utah has become the first state to allow AI to renew medical prescriptions with no doctor involved. The company, Doctronic, also secured a malpractice insurance policy for their AI. Their data also shows that their system matches doctors treatment plans 99.2% of the time.",
-      "published": "2026-01-06T21:04:01+00:00"
+      "published": "2026-01-06T21:04:01+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "9d8c7c4c9140",
@@ -29,7 +39,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "if you're using Obsidian with Claude Code, tell me about your workflow, and what you've used it for",
-      "published": "2026-01-02T22:53:15+00:00"
+      "published": "2026-01-02T22:53:15+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "79e1311ccf8e",
@@ -39,7 +54,12 @@
       "source": "Twitter",
       "category": "Uncategorized",
       "summary": "Media Only",
-      "published": "2026-01-05T14:15:12+00:00"
+      "published": "2026-01-05T14:15:12+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "Uncategorized"
+      ]
     },
     {
       "id": "8c00856f040d",
@@ -49,7 +69,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "Introducing Claude HUD!\n\nA Claude Code plugin that shows you:\n\u00b7 context remaining in the session\n\u00b7 what tools are executing\n\u00b7 which subagents are running\n\u00b7 claude's to-do list progress\n\nEasy installation guide below \u2193",
-      "published": "2026-01-03T22:26:32+00:00"
+      "published": "2026-01-03T22:26:32+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "3444fa509a07",
@@ -59,7 +84,12 @@
       "source": "Twitter",
       "category": "Uncategorized",
       "summary": "I like how all of these characters completely disappeared",
-      "published": "2026-01-03T01:10:33+00:00"
+      "published": "2026-01-03T01:10:33+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "Uncategorized"
+      ]
     },
     {
       "id": "cdef76d040f5",
@@ -69,7 +99,12 @@
       "source": "Twitter",
       "category": "Uncategorized",
       "summary": "Media Only",
-      "published": "2026-01-03T18:58:54+00:00"
+      "published": "2026-01-03T18:58:54+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "Uncategorized"
+      ]
     },
     {
       "id": "51c6967f61ea",
@@ -79,7 +114,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "We believe the next breakthrough in long-horizon agents is training models to manage their own context.\n\nIntroducing our new research direction on Recursive Language Models.\n\nWe are sharing our initial experiments showing the promise of RLMs.",
-      "published": "2026-01-01T21:06:59+00:00"
+      "published": "2026-01-01T21:06:59+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "d717da97da55",
@@ -89,7 +129,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "Wow, this has been really effective for working with Claude Code too",
-      "published": "2026-01-02T15:52:55+00:00"
+      "published": "2026-01-02T15:52:55+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "47aa8df6d63e",
@@ -99,7 +144,12 @@
       "source": "Twitter",
       "category": "Uncategorized",
       "summary": "A man created this work called \"What I'm Seeing\" and it turned out great.",
-      "published": "2026-01-02T13:03:56+00:00"
+      "published": "2026-01-02T13:03:56+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "Uncategorized"
+      ]
     },
     {
       "id": "66b5029a3ebd",
@@ -109,7 +159,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "I'm Boris and I created Claude Code. Lots of people have asked how I use Claude Code, so I wanted to show off my setup a bit.\n\nMy setup might be surprisingly vanilla! Claude Code works great out of the box, so I personally don't customize it much. There is no one correct way to",
-      "published": "2026-01-02T19:58:58+00:00"
+      "published": "2026-01-02T19:58:58+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "146cfdbe7e94",
@@ -119,7 +174,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "you can go back and observe that season 1 of stranger things actually had kinda decent, dark brooding true detective vibes. then each subsequent season, it basically morphed into marvel avengers universe slop. this kind of slow, boiling frog pot bait and switch is everywhere now.",
-      "published": "2025-12-31T14:49:31+00:00"
+      "published": "2025-12-31T14:49:31+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "6af430e287c0",
@@ -129,7 +189,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "the claude agent sdk will do for knowledge work in 2026 what claude code did for coding in 2025.\n\nwant to live in the future?\n\nbuild your own agents with it.\n\nyou\u2019ll have a personal magic tool belt that the public won\u2019t have for another 6-12mo.\n\nit 100% feels like personal agi.",
-      "published": "2025-12-31T18:18:55+00:00"
+      "published": "2025-12-31T18:18:55+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "110fcbf63983",
@@ -139,7 +204,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "It's a bit self-referential but I'm using it to build a Claude Code transcript publishing tool that I use on a daily basis \nhttps://\ngithub.com/simonw/claude-\ncode-transcripts/tree/main\n\u2026",
-      "published": "2026-01-01T18:28:54+00:00"
+      "published": "2026-01-01T18:28:54+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     },
     {
       "id": "182bf6c9288a",
@@ -149,7 +219,12 @@
       "source": "Twitter",
       "category": "AI/Tech",
       "summary": "Telegram bots are extremely easy, they have a great Python lib\n\nThere is really not much to it \u2014 there is a sandboxed user who can only talk to OpenAI and Telegram endpoints, no other internet access, restricted to its little section of the filesystem\n\nIts tools are bash,",
-      "published": "2026-01-01T16:17:04+00:00"
+      "published": "2026-01-01T16:17:04+00:00",
+      "type": "twitter",
+      "recommended": false,
+      "tags": [
+        "AI/Tech"
+      ]
     }
   ]
 }
