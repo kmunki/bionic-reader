@@ -27,7 +27,8 @@ let swipeState = {
   currentX: 0,
   itemEl: null,
   direction: null,  // 'left' or 'right'
-  triggered: false
+  triggered: false,
+  longSwipeLocked: false  // Once 60% is crossed, lock in Read Later
 };
 
 const SWIPE_THRESHOLD = 0.3;  // 30% of card width to trigger action
@@ -51,8 +52,7 @@ async function init() {
   setupPullToRefresh();
   setupEventListeners();
   setupSwipeGestures();
-  setupLongPress();
-  createContextMenu();
+  // Long press removed - conflicts with text selection
   await loadData();
   render();
   showOnboardingHint();
@@ -222,13 +222,16 @@ function handleSwipeMove(e) {
     actionLeft?.classList.add('visible');
     actionRight?.classList.remove('visible');
 
-    // Update icon based on swipe distance
+    // Update icon based on swipe distance (but don't unlock once locked)
     const icon = actionLeft?.querySelector('.swipe-icon');
     if (icon) {
-      if (progress >= LONG_SWIPE_THRESHOLD) {
+      if (progress >= LONG_SWIPE_THRESHOLD && !swipeState.longSwipeLocked) {
+        // Lock in Read Later - don't reset even if user pulls back
+        swipeState.longSwipeLocked = true;
         icon.textContent = '📑';  // Read later
         icon.dataset.action = 'readLater';
-      } else {
+        haptic.medium();  // Distinct haptic for long swipe
+      } else if (!swipeState.longSwipeLocked) {
         icon.textContent = '★';  // Star
         icon.dataset.action = 'star';
       }
@@ -260,9 +263,8 @@ function handleSwipeEnd(e) {
       swipeState.itemEl.classList.toggle('read');
       haptic.medium();
     } else {
-      // Swipe left → star or read later
-      const actionIcon = swipeState.itemEl.querySelector('.swipe-action-left .swipe-icon');
-      if (progress >= LONG_SWIPE_THRESHOLD || actionIcon?.dataset.action === 'readLater') {
+      // Swipe left → star or read later (use locked state)
+      if (swipeState.longSwipeLocked) {
         toggleReadLater(id);
         swipeState.itemEl.classList.toggle('read-later');
       } else {
@@ -305,6 +307,7 @@ function resetSwipeState() {
   swipeState.itemEl = null;
   swipeState.direction = null;
   swipeState.thresholdReached = false;
+  swipeState.longSwipeLocked = false;
 }
 
 function ensureSwipeActions(itemEl) {

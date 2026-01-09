@@ -164,9 +164,15 @@ main {
 .item {
   position: relative;
   overflow: hidden;
+  padding: 16px;
   border-bottom: 1px solid var(--border);
   border-left: 2px solid transparent;
   transition: border-color 0.2s ease-out;
+}
+
+/* When swipe-wrapped, content moves to inner div */
+.item:has(.item-content) {
+  padding: 0;
 }
 
 .item-content {
