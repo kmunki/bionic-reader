@@ -1,6 +1,16 @@
 {
-  "generated": "2026-01-08T11:09:57.805484",
+  "generated": "2026-01-09T01:01:56.404320",
   "items": [
+    {
+      "id": "7e7a3583a237",
+      "title": "",
+      "link": "https://x.com/GlobeEyeNews/status/2009302663918445040",
+      "user": "Globe Eye News",
+      "source": "Twitter",
+      "category": "AI/Tech",
+      "summary": "A 79-year-old British multimillionaire, Sir Benjamin Slade, is seeking a young woman to have a son to inherit his fortune and continue his lineage.",
+      "published": "2026-01-08T16:34:20+00:00"
+    },
     {
       "id": "e9e85d4c22d5",
       "title": "",
@@ -82,16 +92,6 @@
       "published": "2026-01-03T18:58:54+00:00"
     },
     {
-      "id": "51c6967f61ea",
-      "title": "",
-      "link": "https://x.com/PrimeIntellect/status/2006834561637036272",
-      "user": "Prime Intellect",
-      "source": "Twitter",
-      "category": "AI/Tech",
-      "summary": "We believe the next breakthrough in long-horizon agents is training models to manage their own context.\n\nIntroducing our new research direction on Recursive Language Models.\n\nWe are sharing our initial experiments showing the promise of RLMs.",
-      "published": "2026-01-01T21:06:59+00:00"
-    },
-    {
       "id": "14bc9a45d5f5",
       "title": "",
       "link": "https://x.com/Lib_Development/status/2008368427228967166",
@@ -162,16 +162,6 @@
       "published": "2026-01-03T18:58:54+00:00"
     },
     {
-      "id": "51c6967f61ea",
-      "title": "",
-      "link": "https://x.com/PrimeIntellect/status/2006834561637036272",
-      "user": "Prime Intellect",
-      "source": "Twitter",
-      "category": "AI/Tech",
-      "summary": "We believe the next breakthrough in long-horizon agents is training models to manage their own context.\n\nIntroducing our new research direction on Recursive Language Models.\n\nWe are sharing our initial experiments showing the promise of RLMs.",
-      "published": "2026-01-01T21:06:59+00:00"
-    },
-    {
       "id": "d717da97da55",
       "title": "",
       "link": "https://x.com/charliermarsh/status/2007117912801427905",
@@ -200,26 +190,6 @@
       "category": "AI/Tech",
       "summary": "I'm Boris and I created Claude Code. Lots of people have asked how I use Claude Code, so I wanted to show off my setup a bit.\n\nMy setup might be surprisingly vanilla! Claude Code works great out of the box, so I personally don't customize it much. There is no one correct way to",
       "published": "2026-01-02T19:58:58+00:00"
-    },
-    {
-      "id": "110fcbf63983",
-      "title": "",
-      "link": "https://x.com/simonw/status/2006794780177739988",
-      "user": "Simon Willison",
-      "source": "Twitter",
-      "category": "AI/Tech",
-      "summary": "It's a bit self-referential but I'm using it to build a Claude Code transcript publishing tool that I use on a daily basis \nhttps://\ngithub.com/simonw/claude-\ncode-transcripts/tree/main\n\u2026",
-      "published": "2026-01-01T18:28:54+00:00"
-    },
-    {
-      "id": "182bf6c9288a",
-      "title": "",
-      "link": "https://x.com/GrantSlatton/status/2006761600607494353",
-      "user": "Grant Slatton",
-      "source": "Twitter",
-      "category": "AI/Tech",
-      "summary": "Telegram bots are extremely easy, they have a great Python lib\n\nThere is really not much to it \u2014 there is a sandboxed user who can only talk to OpenAI and Telegram endpoints, no other internet access, restricted to its little section of the filesystem\n\nIts tools are bash,",
-      "published": "2026-01-01T16:17:04+00:00"
     }
   ]
 }
