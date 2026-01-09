@@ -1,6 +1,6 @@
 // Service Worker for Bionic Reader
 // Version updated on deploy - triggers cache refresh
-const CACHE_VERSION = 4;
+const CACHE_VERSION = 5;
 const CACHE_NAME = 'bionic-reader-v' + CACHE_VERSION;
 
 const STATIC_ASSETS = [
@@ -32,6 +32,13 @@ self.addEventListener('activate', (event) => {
     })
   );
   self.clients.claim();
+});
+
+// Listen for skip waiting message from app
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Fetch handler

@@ -742,18 +742,42 @@ function toggleReadLater(id) {
 // Register service worker with update detection
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then((reg) => {
-    // Check for updates periodically (every 30 min)
-    setInterval(() => reg.update(), 30 * 60 * 1000);
+    // Check for updates on load and periodically (every 5 min during dev)
+    reg.update();
+    setInterval(() => reg.update(), 5 * 60 * 1000);
 
     reg.addEventListener('updatefound', () => {
       const newWorker = reg.installing;
       newWorker.addEventListener('statechange', () => {
-        // New SW activated - reload to get fresh code
-        if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-          console.log('New version available, reloading...');
-          window.location.reload();
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          // New version available - show update prompt
+          showUpdatePrompt();
         }
       });
     });
+  });
+
+  // Handle controller change (when new SW takes over)
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
+}
+
+function showUpdatePrompt() {
+  const toast = document.createElement('div');
+  toast.className = 'update-toast';
+  toast.innerHTML = `
+    <span>Update available</span>
+    <button onclick="applyUpdate()">Refresh</button>
+  `;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('visible'));
+}
+
+function applyUpdate() {
+  navigator.serviceWorker.getRegistration().then(reg => {
+    if (reg?.waiting) {
+      reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+    }
   });
 }

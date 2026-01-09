@@ -477,3 +477,46 @@ main {
   font-weight: 500;
   cursor: pointer;
 }
+
+/* Update Toast */
+.update-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--accent);
+  color: #000;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 200;
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s;
+}
+
+.update-toast.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.update-toast button {
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .update-toast {
+    bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+}
